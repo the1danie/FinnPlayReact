@@ -1,13 +1,15 @@
-import './App.css'
-import LoginPage from "./components/LoginPage/LoginPage.jsx";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import LoginPage from './components/LoginPage/LoginPage';
+import GameList from './components/GameList/GameList'; // Import GameList
 
-function App() {
+const App = () => (
+    <Router>
+        <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/game-list" element={<GameList />} /> {/* Add route for GameList */}
+            {/* Add other routes here */}
+        </Routes>
+    </Router>
+);
 
-  return (
-    <>
-      <LoginPage/>
-    </>
-  )
-}
-
-export default App
+export default App;

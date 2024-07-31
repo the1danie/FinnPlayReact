@@ -1,9 +1,11 @@
 import express from 'express';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
+import cors from 'cors';
 
 const app = express();
 app.use(express.json());
+app.use(cors()); // Allow requests from any origin
 
 // Secret keys for JWT
 const ACCESS_TOKEN_SECRET = crypto.randomBytes(64).toString('hex');

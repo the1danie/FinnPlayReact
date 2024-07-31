@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import './LoginPage.css';
 import Logo from '../../assets/finnPlay.png';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'; // Import icons for visibility toggle
+import { loginPage } from '../../axiosStore.js'; // Import the login function
 
 const LoginPage = () => {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
     const [passwordVisible, setPasswordVisible] = useState(false); // State for password visibility
     const [loading, setLoading] = useState(false); // State for loading
+    const [error, setError] = useState(''); // State for error messages
+
+    const navigate = useNavigate(); // Initialize useNavigate
 
     const handleLoginChange = (e) => setLogin(e.target.value);
     const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -19,13 +24,23 @@ const LoginPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true); // Start loading
+        setError(''); // Clear any previous error
 
-        // Simulate a login process
-        await new Promise((resolve) => setTimeout(resolve, 2000)); // Simulate network delay
+        try {
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+            // Call the login function from axiosStore
+            const response = await loginPage(login, password);
+            console.log('Login successful:', response);
 
-        // Handle login logic here
-        console.log('Login:', login);
-        console.log('Password:', password);
+            // Handle success - store tokens, redirect, etc.
+            // Example: localStorage.setItem('accessToken', response.accessToken);
+
+            navigate('/game-list'); // Redirect to GameList component
+
+        } catch (error) {
+            console.error('Login error:', error.message);
+            setError(error.message); // Set error message
+        }
 
         setLoading(false); // End loading
     };
@@ -65,6 +80,7 @@ const LoginPage = () => {
                             </span>
                         </label>
                     </div>
+                    {error && <div className="error-message">{error}</div>} {/* Show error message */}
                     <button type="submit" className="login-button">
                         {loading ? <i className="fa fa-spinner fa-spin"></i> : 'Login'} {/* Show spinner or text */}
                     </button>
