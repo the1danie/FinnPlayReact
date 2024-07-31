@@ -1,0 +1,130 @@
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 400px;
+}
+
+.login-container .logo {
+    width: 100px;
+    margin-bottom: 20px;
+}
+
+.login-container .login-form {
+    width: 100%;
+}
+
+.login-container .login-form .form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.login-container .login-form .form-group label {
+    margin-bottom: 5px;
+}
+
+.login-container .login-form .form-group .form-input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-container .login-form .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+.login-container .login-form .login-button {
+    width: 100%;
+    padding: 20px;
+    background-color: #FDBC11;
+    border: none;
+    border-radius: 5px;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-container .login-form .login-button:hover {
+    background-color: #e7aa00;
+}
+.custom-field {
+    position: relative;
+    font-size: 14px;
+    border-top: 20px solid transparent;
+    margin-bottom: 5px;
+    display: inline-block;
+    --field-padding: 20px;
+}
+
+/* ONE */
+.custom-field.one input {
+    background: none;
+    border: 2px solid #F2F2F2;
+    transition: border-color 0.3s ease;
+    padding: var(--field-padding);
+    font-size: inherit;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.custom-field.one input + .placeholder {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 0 5px;
+    transition: 0.2s ease;
+    background: #fff;
+    pointer-events: none;
+}
+
+.custom-field.one input.dirty + .placeholder,
+.custom-field.one input:not(:placeholder-shown) + .placeholder,
+.custom-field.one input:focus + .placeholder {
+    top: 0;
+    font-size: 15px;
+    color: #222;
+    background: #fff;
+    width: auto;
+    transform: translateY(-45%);
+}
+
+.toggle-password svg {
+    width: 20px; /* Установите нужную ширину */
+    height: 20px; /* Установите нужную высоту */
+}
+
+/* Spinner styles */
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1); /* Light grey */
+    border-left: 4px solid #f5a623; /* Orange */
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin: 0;
+}
+
+/* Spinner animation */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
