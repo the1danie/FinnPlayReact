@@ -1,0 +1,49 @@
+body {
+    margin: 0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between; /* Space between logo and links */
+    align-items: center; /* Center items vertically */
+    color: white;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.1); /* Adjust shadow properties as needed */
+
+}
+
+.navbar-logo {
+    margin-left: 5rem;
+    padding: 0;
+}
+
+.image-logo {
+    width: 5rem; /* Fixed width for the logo */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Ensure no extra space at the bottom */
+}
+
+.navbar-links {
+    list-style: none; /* Remove bullet points */
+    display: flex;
+    align-items: center; /* Center items vertically in the list */
+    gap: 3rem; /* Space between items */
+    margin-right: 5rem;
+    padding: 0;
+}
+
+.navbar-links li {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-links li a {
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 1.125rem;
+    margin-left: 0.5rem; /* Space between image and link text */
+}
+
+.image-avatar {
+    width: 1.2rem; /* Adjust size of avatar */
+    border-radius: 50%; /* Make it circular */
+}

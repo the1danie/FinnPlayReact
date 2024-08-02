@@ -1,10 +1,14 @@
 import React from 'react';
+import './GameList.css'
+import NavBarGame from "./SubCategory/NavBarGame.jsx";
+import MainGame from "./SubCategory/MainGame.jsx";
 
 const GameList = () => {
     return (
-        <div>
-            <h1>Hello world</h1>
-        </div>
+        <>
+            <NavBarGame/>
+            <MainGame/>
+        </>
     );
 };
 

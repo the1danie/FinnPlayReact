@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import './LoginPage.css';
-import Logo from '../../assets/finnPlay.png';
+import Logo from '../../assets/Logo/finnPlay.png';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'; // Import icons for visibility toggle
 import { loginPage } from '../../axiosStore.js'; // Import the login function
 
