@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import './MainGame.css';
 import { Photo1, Photo2, Photo3, Photo4, Photo5, Photo6, Photo7, Photo8 } from '../../GamesPhoto.js'
-import RangeSlider from "./RangeSlider.jsx";
+import RangeSlider from "./StepIndicator.jsx";
 
 
 const MainGame = () => {
@@ -105,12 +105,15 @@ const MainGame = () => {
                             ))}
                         </div>
                     </div>
-                    <RangeSlider/>
-
-                    <div className="game-amount">
-                        <p>Games amount: 3800</p>
+                    <div className={'slider'}>
+                        <p>Columns</p>
+                        <RangeSlider/>
                     </div>
-                    <button className="reset-button">Reset</button>
+
+                    <div className="game-amount" style={{ display: 'flex', justifyContent: 'space-between', margin:'0'}}>
+                        <p>Games amount: 3800</p>
+                        <button className="reset-button">Reset</button>
+                    </div>
                 </div>
             </div>
         </div>

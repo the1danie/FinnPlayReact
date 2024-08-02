@@ -1,0 +1,41 @@
+.step-indicator {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 23rem;
+    margin: 20px auto;
+    position: relative;
+}
+
+.step {
+    background-color: #F2F2F2;
+    color: black;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.line-container {
+    position: absolute;
+    top: 36%;
+    left: 15px;
+    right: 15px;
+    height: 11px;
+    z-index: 0;
+    background-color: #F2F2F2; /* Default color for the entire line */
+}
+
+.line {
+    height: 11px;
+    background-color: #FDBC11; /* Active color for the filled portion */
+    transition: width 0.5s ease, background-color 0.4s ease-in; /* Animation effect */
+}
+
+.step.active {
+    background-color: #FDBC11;
+}
