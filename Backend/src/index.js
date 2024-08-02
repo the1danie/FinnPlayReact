@@ -12,17 +12,21 @@ const ACCESS_TOKEN_SECRET = crypto.randomBytes(64).toString('hex');
 const REFRESH_TOKEN_SECRET = crypto.randomBytes(64).toString('hex');
 
 // Dummy user data for demonstration
-const dummyUser = {
-    email: 'user@example.com',
-    password: 'password123', // In practice, hash passwords and use secure storage
+const users = {
+    Player1: { email: 'user1@example.com', password: 'password1234' },
+    Player2: { email: 'user2@example.com', password: 'password1234' },
 };
 
 // Issue tokens on login
 app.post('/auth/login', (req, res) => {
     const { email, password } = req.body;
 
-    // Validate credentials
-    if (email === dummyUser.email && password === dummyUser.password) {
+    // Find the player by email
+    const player = Object.keys(users).find(
+        key => users[key].email === email && users[key].password === password
+    );
+
+    if (player) {
         // Generate JWT access token
         const accessToken = jwt.sign(
             { email: email },
@@ -39,6 +43,7 @@ app.post('/auth/login', (req, res) => {
 
         res.json({
             success: true,
+            player: player, // Include the player in the response
             accessToken: accessToken,
             refreshToken: refreshToken,
         });
@@ -50,27 +55,43 @@ app.post('/auth/login', (req, res) => {
     }
 });
 
-// Refresh token endpoint
-app.post('/auth/refresh', (req, res) => {
-    const { refreshToken } = req.body;
+app.post('/players/details', (req, res) => {
+    const { accessToken, refreshToken } = req.body;
 
-    if (!refreshToken) {
-        return res.status(401).json({ success: false, message: 'Refresh token required' });
+    if (!accessToken || !refreshToken) {
+        return res.status(401).json({ success: false, message: 'Access token and refresh token required' });
     }
 
+    // Verify the refresh token
     jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, user) => {
         if (err) return res.status(403).json({ success: false, message: 'Invalid refresh token' });
 
-        // Generate new access token
-        const accessToken = jwt.sign(
-            { email: user.email },
-            ACCESS_TOKEN_SECRET,
-            { expiresIn: '15m' }
-        );
+        // Verify the access token
+        jwt.verify(accessToken, ACCESS_TOKEN_SECRET, (err, accessUser) => {
+            if (err) return res.status(403).json({ success: false, message: 'Invalid access token' });
 
-        res.json({ success: true, accessToken: accessToken });
+            // Ensure the access token user matches the refresh token user
+            if (accessUser.email !== user.email) {
+                return res.status(403).json({ success: false, message: 'Token mismatch' });
+            }
+
+            // If the tokens are valid, return player details
+            const player = Object.keys(users).find(
+                key => users[key].email === accessUser.email
+            );
+
+            if (player) {
+                res.json({
+                    success: true,
+                    player: player,
+                });
+            } else {
+                res.status(404).json({ success: false, message: 'Player not found' });
+            }
+        });
     });
 });
+
 
 // Start server
 const port = 3000;

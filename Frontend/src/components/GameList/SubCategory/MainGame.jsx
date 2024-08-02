@@ -1,13 +1,23 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
+import data from '../../../assets/data.json'; // Adjust path if necessary
 import './MainGame.css';
-import { Photo1, Photo2, Photo3, Photo4, Photo5, Photo6, Photo7, Photo8 } from '../../GamesPhoto.js'
-import RangeSlider from "./StepIndicator.jsx";
-
+import RangeSlider from './StepIndicator.jsx'; // Ensure this path is correct
 
 const MainGame = () => {
-    const [activeProvider, setActiveProvider] = useState('Play n\' Go');
-    const [activeGroup, setActiveGroup] = useState('Slots');
+    const [activeProvider, setActiveProvider] = useState('All');
+    const [activeGroup, setActiveGroup] = useState('All');
     const [activeSortOption, setActiveSortOption] = useState('A-Z');
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filteredGames, setFilteredGames] = useState(data.games);
+    const [columns, setColumns] = useState(4); // Default to 4 columns
+
+    const handleStepChange = (step) => {
+        setColumns(step);
+    };
+
+    useEffect(() => {
+        filterGames();
+    }, [activeProvider, activeGroup, activeSortOption, searchTerm]);
 
     const handleProviderClick = (provider) => {
         setActiveProvider(provider);
@@ -19,48 +29,78 @@ const MainGame = () => {
 
     const handleSortOptionClick = (sortOption) => {
         setActiveSortOption(sortOption);
+        filterGames(); // Trigger filtering when sort option changes
     };
 
-    const providers = [
-        'Play n\' Go', 'Yggdrasil', 'Pragmatic', 'Microgaming', 'NetEnt',
-        'Altenar', 'Ezugi', 'GameArt', 'Red Tiger', 'Evolution',
-        'Relax Gaming', 'Evoplay'
-    ];
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+        filterGames(); // Trigger filtering when search term changes
+    };
 
-    const gameGroups = [
-        'Slots', 'Blackjack', 'Jackpot', 'Live', 'Bingo', 'Baccarat', 'Roulette', 'Poker'
-    ];
+    const filterGames = () => {
+        let games = data.games;
 
+        if (activeProvider !== 'All') {
+            const providerId = data.providers.find(provider => provider.name === activeProvider)?.id;
+            games = games.filter(game => game.provider === providerId);
+        }
+
+        if (activeGroup !== 'All') {
+            const groupId = data.groups.find(group => group.name === activeGroup)?.id;
+            games = games.filter(game => groupId && data.groups.find(g => g.id === groupId)?.games.includes(game.id));
+        }
+
+        if (searchTerm) {
+            games = games.filter(game => game.name.toLowerCase().includes(searchTerm.toLowerCase()));
+        }
+
+        if (activeSortOption === 'Newest') {
+            games.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by date descending
+        } else if (activeSortOption === 'A-Z') {
+            games.sort((a, b) => a.name.localeCompare(b.name));
+        } else if (activeSortOption === 'Z-A') {
+            games.sort((a, b) => b.name.localeCompare(a.name));
+        }
+
+        setFilteredGames(games);
+    };
+
+    const providers = ['All', ...data.providers.map(provider => provider.name)];
+    const gameGroups = ['All', ...data.groups.map(group => group.name)];
     const sortOptions = ['A-Z', 'Z-A', 'Newest'];
 
-    // Array of photos for the game cards
-    const gamePhotos = [
-        { src: Photo1, alt: 'Game 1' },
-        { src: Photo2, alt: 'Game 2' },
-        { src: Photo3, alt: 'Game 3' },
-        { src: Photo4, alt: 'Game 4' },
-        { src: Photo5, alt: 'Game 5' },
-        { src: Photo6, alt: 'Game 6' },
-        { src: Photo7, alt: 'Game 7' },
-        { src: Photo8, alt: 'Game 8' }
-    ];
+    const gamePhotos = filteredGames.map(game => ({
+        src: game.cover,
+        alt: game.name,
+    }));
+
     return (
         <div className="main-game-container">
             <div className="block_left_info">
-                <div className="game-cards-wrapper"> {/* New wrapper div */}
+                <div className="game-cards-wrapper">
                     <div className="game-cards">
-                        {gamePhotos.map((photo, index) => (
-                            <div className="game-card" key={index}>
-                                <img src={photo.src} alt={photo.alt} />
-                            </div>
-                        ))}
+                        {gamePhotos.length > 0 ? (
+                            gamePhotos.map((photo, index) => (
+                                <div style={{ width: `calc(100% / ${columns} - 10px)` }} className="game-card" key={index}>
+                                    <img src={photo.src} alt={photo.alt} />
+                                </div>
+                            ))
+                        ) : (
+                            <p>No games found</p>
+                        )}
                     </div>
                 </div>
             </div>
             <div className="block_right_info">
                 <div className="filter-sidebar">
                     <div className="search-container">
-                        <input type="text" placeholder="Search" className="search-input"/>
+                        <input
+                            type="text"
+                            placeholder="Search"
+                            className="search-input"
+                            value={searchTerm}
+                            onChange={handleSearchChange}
+                        />
                         <i className="fas fa-search search-icon"></i>
                     </div>
                     <div className="providers">
@@ -105,14 +145,25 @@ const MainGame = () => {
                             ))}
                         </div>
                     </div>
+
                     <div className={'slider'}>
                         <p>Columns</p>
-                        <RangeSlider/>
+                        <RangeSlider onStepChange={handleStepChange} />
                     </div>
 
-                    <div className="game-amount" style={{ display: 'flex', justifyContent: 'space-between', margin:'0'}}>
-                        <p>Games amount: 3800</p>
-                        <button className="reset-button">Reset</button>
+                    <div
+                        className="game-amount"
+                        style={{ display: 'flex', justifyContent: 'space-between', margin: '0' }}
+                    >
+                        <p>Games amount: {filteredGames.length}</p>
+                        <button className="reset-button" onClick={() => {
+                            setActiveProvider('All');
+                            setActiveGroup('All');
+                            setActiveSortOption('A-Z');
+                            setSearchTerm('');
+                            setFilteredGames(data.games);
+                        }}>Reset
+                        </button>
                     </div>
                 </div>
             </div>

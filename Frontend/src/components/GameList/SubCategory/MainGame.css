@@ -24,16 +24,16 @@
 }
 
 .game-card {
-    text-align: center;
-    flex: 1 1 24%; /* Adjust to fit as many cards per row as needed */
-    box-sizing: border-box; /* Ensure padding and borders are included in the element's total width and height */
-    margin-bottom: 20px;
+    overflow: hidden; /* Ensures that any overflow is hidden */
+    margin: 5px 5px 10px;
 }
 
 .game-card img {
     width: 90%; /* Ensure the image fits the card width */
     height: auto; /* Maintain aspect ratio */
     display: block; /* Remove any inline spacing around the image */
+    border-radius: 15px; /* Adjust as needed */
+
 }
 
 .block_right_info {
@@ -119,6 +119,8 @@
     cursor: pointer;
     color: #808080;
     font-size: 16px;
+    transition: all 0.3s ease; /* Smooth transition */
+
 }
 
 p {
@@ -182,3 +184,8 @@ p {
     text-align: center;
     transform: translateX(-50%);
 }
+
+.reset-button:hover {
+    color: black; /* White text color on hover */
+}
+

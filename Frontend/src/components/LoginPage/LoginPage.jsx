@@ -28,13 +28,10 @@ const LoginPage = () => {
 
         try {
             await new Promise((resolve) => setTimeout(resolve, 2000));
-            // Call the login function from axiosStore
             const response = await loginPage(login, password);
             console.log('Login successful:', response);
-
-            // Handle success - store tokens, redirect, etc.
-            // Example: localStorage.setItem('accessToken', response.accessToken);
-
+            localStorage.setItem('accessToken', response.accessToken);
+            localStorage.setItem('refreshToken', response.refreshToken);
             navigate('/game-list'); // Redirect to GameList component
 
         } catch (error) {

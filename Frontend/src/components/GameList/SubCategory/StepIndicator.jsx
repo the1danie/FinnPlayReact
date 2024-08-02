@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import './StepIndicator.css'; // Make sure to create this CSS file
 
-const StepIndicator = () => {
-    const [activeStep, setActiveStep] = useState(2); // Initial step is 2
+const StepIndicator = ({ onStepChange }) => {
+    const [activeStep, setActiveStep] = useState(4); // Initial step is 4
 
     const handleClick = (step) => {
         setActiveStep(step);
+        onStepChange(step); // Pass the step to the parent component
     };
 
     return (
@@ -28,7 +29,7 @@ const StepIndicator = () => {
                             activeStep === 2 ? 'calc(33.33% - 7rem)' :
                                 activeStep === 3 ? 'calc(66.66% - 3rem)' :
                                     'calc(100%)',
-                        backgroundColor: activeStep >= 2 ? '#f0ad4e' : 'grey',
+                        backgroundColor: activeStep >= 2 ? '#FDBC11' : '#F2F2F2',
                     }}
                 ></div>
             </div>
