@@ -1,30 +1,30 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 import Logo from '../../assets/Logo/finnPlay.png';
-import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'; // Import icons for visibility toggle
-import { loginPage } from '../../axiosStore.js'; // Import the login function
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import { loginPage } from '../../axiosStore.js';
 
 const LoginPage = () => {
     const [login, setLogin] = useState('');
     const [password, setPassword] = useState('');
-    const [passwordVisible, setPasswordVisible] = useState(false); // State for password visibility
-    const [loading, setLoading] = useState(false); // State for loading
-    const [error, setError] = useState(''); // State for error messages
+    const [passwordVisible, setPasswordVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate();
 
     const handleLoginChange = (e) => setLogin(e.target.value);
     const handlePasswordChange = (e) => setPassword(e.target.value);
 
     const handlePasswordVisibilityToggle = () => {
-        setPasswordVisible(!passwordVisible); // Toggle password visibility
+        setPasswordVisible(!passwordVisible);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true); // Start loading
-        setError(''); // Clear any previous error
+        setLoading(true);
+        setError('');
 
         try {
             await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -32,20 +32,20 @@ const LoginPage = () => {
             console.log('Login successful:', response);
             localStorage.setItem('accessToken', response.accessToken);
             localStorage.setItem('refreshToken', response.refreshToken);
-            navigate('/game-list'); // Redirect to GameList component
+            navigate('/game-list');
 
         } catch (error) {
             console.error('Login error:', error.message);
-            setError(error.message); // Set error message
+            setError(error.message);
         }
 
-        setLoading(false); // End loading
+        setLoading(false);
     };
 
     return (
         <div className="login-page">
             <div className="login-container">
-                <img src={Logo} alt="Logo" className="logo" /> {/* Add the correct path to your logo */}
+                <img src={Logo} alt="Logo" className="logo" />
                 <form onSubmit={handleSubmit} className="login-form">
                     <div className="form-group">
                         <label className="custom-field one">
@@ -62,7 +62,7 @@ const LoginPage = () => {
                     <div className="form-group">
                         <label style={{ borderTop: '0px' }} className="custom-field one">
                             <input
-                                type={passwordVisible ? 'text' : 'password'} // Toggle input type based on state
+                                type={passwordVisible ? 'text' : 'password'}
                                 value={password}
                                 onChange={handlePasswordChange}
                                 className={password ? 'dirty' : ''}
@@ -73,13 +73,13 @@ const LoginPage = () => {
                                 className="toggle-password"
                                 onClick={handlePasswordVisibilityToggle}
                             >
-                                {passwordVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />} {/* Toggle icon */}
+                                {passwordVisible ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
                             </span>
                         </label>
                     </div>
-                    {error && <div className="error-message">{error}</div>} {/* Show error message */}
+                    {error && <div className="error-message">{error}</div>}
                     <button type="submit" className="login-button">
-                        {loading ? <i className="fa fa-spinner fa-spin"></i> : 'Login'} {/* Show spinner or text */}
+                        {loading ? <i className="fa fa-spinner fa-spin"></i> : 'Login'}
                     </button>
                 </form>
             </div>

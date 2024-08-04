@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import './StepIndicator.css'; // Make sure to create this CSS file
+import './StepIndicator.css';
 
 const StepIndicator = ({ onStepChange }) => {
-    const [activeStep, setActiveStep] = useState(4); // Initial step is 4
+    const [activeStep, setActiveStep] = useState(4);
 
     const handleClick = (step) => {
         setActiveStep(step);
-        onStepChange(step); // Pass the step to the parent component
+        onStepChange(step);
     };
 
     return (

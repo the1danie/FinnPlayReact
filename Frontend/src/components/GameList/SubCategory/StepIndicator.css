@@ -18,7 +18,7 @@
     align-items: center;
     cursor: pointer;
     z-index: 1;
-    transition: background-color 0.5s ease, transform 0.5s ease; /* Add transition for background color and transform */
+    transition: background-color 0.5s ease, transform 0.5s ease;
 }
 
 .line-container {
@@ -28,15 +28,22 @@
     right: 15px;
     height: 0.9rem;
     z-index: 0;
-    background-color: #F2F2F2; /* Default color for the entire line */
+    background-color: #F2F2F2;
 }
 
 .line {
     height: 0.9rem;
-    background-color: #FDBC11; /* Active color for the filled portion */
-    transition: width 0.5s ease, background-color 0.5s ease; /* Animation effect */
+    background-color: #FDBC11;
+    transition: width 0.5s ease, background-color 0.5s ease;
 }
 
 .step.active {
     background-color: #FDBC11;
+}
+
+@media (max-width: 480px) {
+    .step-indicator{
+        display: none;
+    }
+
 }

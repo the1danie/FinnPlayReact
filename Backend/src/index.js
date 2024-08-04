@@ -5,7 +5,7 @@ import cors from 'cors';
 
 const app = express();
 app.use(express.json());
-app.use(cors()); // Allow requests from any origin
+app.use(cors());
 
 // Secret keys for JWT
 const ACCESS_TOKEN_SECRET = crypto.randomBytes(64).toString('hex');
@@ -31,19 +31,19 @@ app.post('/auth/login', (req, res) => {
         const accessToken = jwt.sign(
             { email: email },
             ACCESS_TOKEN_SECRET,
-            { expiresIn: '15m' } // Access token expires in 15 minutes
+            { expiresIn: '15m' }
         );
 
         // Generate JWT refresh token
         const refreshToken = jwt.sign(
             { email: email },
             REFRESH_TOKEN_SECRET,
-            { expiresIn: '7d' } // Refresh token expires in 7 days
+            { expiresIn: '7d' }
         );
 
         res.json({
             success: true,
-            player: player, // Include the player in the response
+            player: player,
             accessToken: accessToken,
             refreshToken: refreshToken,
         });
@@ -62,20 +62,16 @@ app.post('/players/details', (req, res) => {
         return res.status(401).json({ success: false, message: 'Access token and refresh token required' });
     }
 
-    // Verify the refresh token
     jwt.verify(refreshToken, REFRESH_TOKEN_SECRET, (err, user) => {
         if (err) return res.status(403).json({ success: false, message: 'Invalid refresh token' });
 
-        // Verify the access token
         jwt.verify(accessToken, ACCESS_TOKEN_SECRET, (err, accessUser) => {
             if (err) return res.status(403).json({ success: false, message: 'Invalid access token' });
 
-            // Ensure the access token user matches the refresh token user
             if (accessUser.email !== user.email) {
                 return res.status(403).json({ success: false, message: 'Token mismatch' });
             }
 
-            // If the tokens are valid, return player details
             const player = Object.keys(users).find(
                 key => users[key].email === accessUser.email
             );

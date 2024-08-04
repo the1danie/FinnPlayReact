@@ -1,4 +1,3 @@
-// api.js
 import axios from 'axios';
 
 const api = axios.create({
@@ -13,15 +12,12 @@ export const loginPage = async (email, password) => {
         const response = await api.post('/auth/login', { email, password });
 
         if (response.status === 200 && response.data.success) {
-            // Successful login
             return response.data;
         } else {
-            // Handle unsuccessful login
             throw new Error(response.data.message || 'Login failed');
         }
     } catch (error) {
-        console.error('Error during login:', error); // Debug log
-        // Re-throw the error with a custom message
+        console.error('Error during login:', error);
         throw new Error(error.response ? error.response.data.message : error.message);
     }
 };
@@ -32,15 +28,12 @@ export const getPlayerDetails = async (accessToken, refreshToken) => {
         const response = await api.post('/players/details', { accessToken, refreshToken });
 
         if (response.status === 200 && response.data.success) {
-            // Successful retrieval of player details
             return response.data;
         } else {
-            // Handle unsuccessful retrieval
             throw new Error(response.data.message || 'Failed to retrieve player details');
         }
     } catch (error) {
-        console.error('Error fetching player details:', error); // Debug log
-        // Re-throw the error with a custom message
+        console.error('Error fetching player details:', error);
         throw new Error(error.response ? error.response.data.message : error.message);
     }
 };

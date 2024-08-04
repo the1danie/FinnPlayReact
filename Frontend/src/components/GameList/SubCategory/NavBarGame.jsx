@@ -20,7 +20,7 @@ const NavBarGame = () => {
                 }
 
                 const response = await getPlayerDetails(accessToken, refreshToken);
-                setPlayerName(response.player); // or response.details.email, depending on your API response structure
+                setPlayerName(response.player);
             } catch (err) {
                 console.error('Failed to fetch player details:', err.message);
                 setError(err.message);
@@ -33,10 +33,9 @@ const NavBarGame = () => {
     }, []);
 
     const handleLogout = () => {
-        // Clear tokens and redirect to login page
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
-        window.location.href = '/login'; // Adjust based on your routing setup
+        window.location.href = '/login';
     };
 
     return (
