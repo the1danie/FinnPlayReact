@@ -28,7 +28,7 @@ node index.js
 
 ```sh
 cd ..
-cd..
+cd ..
 npm run dev
 ```
 
