@@ -1,9 +1,47 @@
-# React + Vite
+## Тестовое задание
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Обязательно к прочтению**
 
-Currently, two official plugins are available:
+Сайт написан на React.js с использованием чистого CSS. Пожалуйста, выполните следующие шаги:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-# FinnPlayReact
+### 1. Клонирование репозитория
+
+Сначала клонируйте репозиторий:
+
+```sh
+git clone https://github.com/the1danie/FinnPlayReact.git
+```
+
+### 2. Запуск сервера Backend
+
+Перейдите в папку `backend` и запустите сервер:
+
+```sh
+cd backend
+node index.js
+```
+
+### 3. Запуск основного файла React
+
+Вернитесь в корневую папку проекта и запустите сервер разработки React:
+
+```sh
+cd ..
+npm run dev
+```
+
+### 4. Данные для входа
+
+После запуска вы попадете на страницу входа. Используйте следующие учетные данные для входа:
+
+- **user1**: 
+  - Email: `user1@example.com`
+  - Пароль: `password1234`
+
+- **user2**:
+  - Email: `user2@example.com`
+  - Пароль: `password1234`
+
+### Примечание
+
+На сайте не использованы UI элементы кроме библиотеки `react-icons/ai`.
