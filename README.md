@@ -18,6 +18,7 @@ git clone https://github.com/the1danie/FinnPlayReact.git
 
 ```sh
 cd backend
+cd src
 node index.js
 ```
 
@@ -27,6 +28,7 @@ node index.js
 
 ```sh
 cd ..
+cd..
 npm run dev
 ```
 
